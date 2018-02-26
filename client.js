@@ -5,16 +5,16 @@ const url = require('url');
 const querystring = require('querystring');
 
 exports.ApiClient = class {
-	constructor(api_key, base_url="https://cockpit.shirtigo.de/api") {
+  constructor(api_key, base_url="https://cockpit.shirtigo.de/api") {
     if (api_key.length < 100) {
       console.warn("The provided API token appears to be shorter than expected.");
     }
 
-		this.api_key = api_key;
-		this.base_url = base_url;
-	}
+    this.api_key = api_key;
+    this.base_url = base_url;
+  }
 
-	_request(endpoint, method="GET", data={}, params={}, files={}) {
+  _request(endpoint, method="GET", data={}, params={}, files={}) {
     return new Promise((resolve, reject) => {
       let headers = {
         "User-Agent": "Shirtigo Cockpit Node REST API Client",
@@ -46,8 +46,6 @@ exports.ApiClient = class {
       }
 
       let req = request(request_options, function(err, response, body) {
-          //console.log(body.message);
-
           if (err) {
             error(err);
           }
@@ -91,21 +89,21 @@ exports.ApiClient = class {
         }
       }
     });
-	}
+  }
 
-	get(url, params={}) {
-		return this._request(url, "GET", {}, params);
-	}
+  get(url, params={}) {
+    return this._request(url, "GET", {}, params);
+  }
 
-	post(url, data={}, params={}, files={}) {
-		return this._request(url, "POST", data, params, files);
-	}
+  post(url, data={}, params={}, files={}) {
+    return this._request(url, "POST", data, params, files);
+  }
 
-	put(url, data={}, params={}, files={}) {
-		return this._request(url, "PUT", data, params, files);
-	}
+  put(url, data={}, params={}, files={}) {
+    return this._request(url, "PUT", data, params, files);
+  }
 
-	delete(url, params={}) {
-		return this._request(url, "DELETE", {}, params);
-	}
+  delete(url, params={}) {
+    return this._request(url, "DELETE", {}, params);
+  }
 }
