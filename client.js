@@ -1,8 +1,5 @@
 const request = require('request');
-const http = require('http');
-const https = require('https');
 const url = require('url');
-const querystring = require('querystring');
 
 exports.ApiClient = class {
   constructor(api_key, base_url="https://cockpit.shirtigo.de/api") {
