@@ -1,5 +1,5 @@
-# shirtigo-api-python
-A python implementation of a client for the shirtigo print API.
+# shirtigo-api-js
+A javascript implementation of a client for the shirtigo print API.
 Check out our [REST-API documentation](https://cockpit.shirtigo.de/docs/rest-api/) for a full list of all features.
 
 # Basic usage
