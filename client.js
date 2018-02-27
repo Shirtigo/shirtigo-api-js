@@ -26,6 +26,7 @@ exports.ApiClient = class {
         method: method,
         uri: absolute_url,
         headers: headers,
+        json: true,
       };
 
       if (Object.keys(params).length > 0) {
@@ -33,7 +34,6 @@ exports.ApiClient = class {
       }
 
       if (Object.keys(data).length > 0) {
-        request_options.json = true;
         request_options.body = data;
       }
 
@@ -43,36 +43,37 @@ exports.ApiClient = class {
       }
 
       let req = request(request_options, function(err, response, body) {
-          if (err) {
-            error(err);
-          }
+        if (err) {
+          error(err);
+        }
 
-          if (response.statusCode >= 200 && response.statusCode < 300) {
-            resolve(response.body);
-            return;
-          }
+        if (response.statusCode >= 200 && response.statusCode < 300) {
+          resolve(response.body)
 
-          if (response.statusCode == 401) {
-            if (response.request.uri.href != absolute_url) {
-              error("Authentication error. Make sure that the client base url exactly matches the documentation.");
-            } else {
-              error("Authentication error. Check whether the provided API key is valid.");
-            }
-          } else if (response.statusCode == 405) {
-            error(method + " is not valid a valid HTTP verb for the '" + endpoint + "' endpoint.");
-          } else if (response.statusCode == 422) {
-            error("Input validation failed: " + JSON.stringify(body["errors"]));
+          return;
+        }
+
+        if (response.statusCode == 401) {
+          if (response.request.uri.href != absolute_url) {
+            error("Authentication error. Make sure that the client base url exactly matches the documentation.");
           } else {
-            let data = {};
-            try {
-              data = JSON.parse(body);
-            } catch (e) {}
-            if (data.hasOwnProperty("message")) {
-              error("Endpoint returned HTTP status " + response.statusCode + ": " + data["message"]);
-            } else {
-              error("Endpoint returned unhandled HTTP status " + response.statusCode);
-            }
+            error("Authentication error. Check whether the provided API key is valid.");
           }
+        } else if (response.statusCode == 405) {
+          error(method + " is not valid a valid HTTP verb for the '" + endpoint + "' endpoint.");
+        } else if (response.statusCode == 422) {
+          error("Input validation failed: " + JSON.stringify(body["errors"]));
+        } else {
+          let data = {};
+          try {
+            data = JSON.parse(body);
+          } catch (e) {}
+          if (data.hasOwnProperty("message")) {
+            error("Endpoint returned HTTP status " + response.statusCode + ": " + data["message"]);
+          } else {
+            error("Endpoint returned unhandled HTTP status " + response.statusCode);
+          }
+        }
       });
 
       if (Object.keys(files).length > 0) {
