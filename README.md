@@ -7,7 +7,7 @@ Check out our [REST-API documentation](https://cockpit.shirtigo.de/docs/rest-api
 ```javascript
 const { ApiClient } = require("./client.js")
 
-const BASE_URL = "https://testing.cockpit.shirtigo.de/api/"
+const BASE_URL = "https://cockpit.shirtigo.de/api/"
 const API_TOKEN = "YOUR_API_TOKEN"
 let client = new ApiClient(API_TOKEN, BASE_URL)
 ```
