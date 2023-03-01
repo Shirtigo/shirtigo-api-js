@@ -2,7 +2,7 @@ const request = require('request');
 const url = require('url');
 
 exports.ApiClient = class {
-  constructor(api_key, base_url="https://cockpit.shirtigo.de/api") {
+  constructor(api_key, base_url="https://cockpit.shirtigo.com/api") {
     if (api_key.length < 100) {
       console.warn("The provided API token appears to be shorter than expected.");
     }
